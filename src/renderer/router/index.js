@@ -7,8 +7,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'landing-page',
-      component: require('@/components/LandingPage').default
+      name: 'personal-summery',
+      component: require('@/components/PersonalSummery').default
+    },
+    {
+      path: '/task',
+      name: 'task-page',
+      component: require('@/components/Task').default
     },
     {
       path: '*',
