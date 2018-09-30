@@ -1,10 +1,10 @@
 <template>
-  <router-link to="/task"><el-button>画面遷移します</el-button></router-link>
+  <span>Record</span>
 </template>
 
 <script>
   export default {
-    name: 'personal-summery',
+    name: 'record-page',
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)

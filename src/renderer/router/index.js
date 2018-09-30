@@ -12,8 +12,18 @@ export default new Router({
     },
     {
       path: '/task',
-      name: 'task-page',
+      name: 'task',
       component: require('@/components/Task').default
+    },
+    {
+      path: '/record',
+      name: 'record',
+      component: require('@/components/Record').default
+    },
+    {
+      path: '/time',
+      name: 'time',
+      component: require('@/components/Time').default
     },
     {
       path: '*',

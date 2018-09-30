@@ -21,3 +21,13 @@ new Vue({
   store,
   template: '<App/>'
 }).$mount('#app')
+
+window.graphComponent = Vue.extend({
+  template: '',
+  data: {
+    list: ['']
+  },
+  props: ['property'],
+  methods: {
+  }
+})
