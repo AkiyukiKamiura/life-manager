@@ -18,12 +18,14 @@
 <script>
   import SideMenu from './components/Common/SideMenu.vue'
   import CustomHeader from './components/Common/CustomHeader.vue'
+  import Breadcrumb from './components/Common/Breadcrumb.vue'
 
   export default {
     name: 'life_manager',
     components: {
       SideMenu,
-      CustomHeader
+      CustomHeader,
+      Breadcrumb
     }
   }
 </script>
@@ -38,5 +40,7 @@ body {
     background-color: #eee;
     color: #333;
     line-height: 60px;
+    /* top: 0;
+    position: sticky; */
   }
 </style>

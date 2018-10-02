@@ -1,70 +1,53 @@
 <template>
   <div>
-    <h3>Mysql</h3>
-    <ul class='setting-item'>
-      <li>
-        <p>Host</p>
-        <el-input placeholder="please input" v-model="mysql.host"></el-input>
-      </li>
-      <li>
-        <p>Username</p>
-        <el-input placeholder="please input" v-model="mysql.host"></el-input>
-      </li>
-      <li>
-        <p>Password</p>
-        <el-input placeholder="please input" v-model="mysql.host"></el-input>
-      </li>
-      <li>
-        <p>Database name</p>
-        <el-input placeholder="please input" v-model="mysql.host"></el-input>
-      </li>
-    </ul>
+    <!-- <h4 class='setting-title'>Mysql Settings</h4>
+    <el-form ref="form" :model="mysql" label-width="120px">
+      <el-form-item label="Hostname">
+        <el-input v-model="mysql.host"></el-input>
+      </el-form-item>
+      <el-form-item label="Port">
+        <el-input v-model="mysql.port"></el-input>
+      </el-form-item>
+      <el-form-item label="Username">
+        <el-input v-model="mysql.user"></el-input>
+      </el-form-item>
+      <el-form-item label="Password">
+        <el-input v-model="mysql.password"></el-input>
+      </el-form-item>
+      <el-form-item label="Database">
+        <el-input v-model="mysql.database"></el-input>
+      </el-form-item>
+      <el-form-item align='right'>
+        <el-button type="primary" @click="onSubmit">Create</el-button>
+      </el-form-item>
+    </el-form> -->
   </div>
 </template>
 
 <script>
- let mySQL = require('mysql')
  export default {
    name: 'setting-page',
    data () {
      return {
        name: 'akiyuki kamiura',
-       age: '23',
-       mysql: {
-         host: 'localhost',
-         user: 'electron_life',
-         password: 'electron_life',
-         database: 'life_manager'
-       }
+       age: '23'
      }
    },
    methods: {
-
    },
    mounted: function () {
-     console.log(mySQL)
-     let connection = mySQL.createConnection({
-       host: 'localhost',
-       port: '3306',
-       user: 'electron_life',
-       password: 'electron_life',
-       database: 'life_manager',
-       insecureAuth: true
-     })
-     console.log(connection)
-     connection.connect()
-     connection.query('SELECT 1 + 1 AS solution', function (err, rsts, fields) {
-       if (err) { throw err }
-       console.log('The solution is: ', rsts[0].solution)
-     })
-     connection.end()
+     console.log('mounted!')
    }
  }
 </script>
 
 <style>
-ul.setting-item {
-  list-style-type: none;
-  padding-left: 0;
+.setting-title {
+  color: #555;
+  border-bottom: 1px dotted #bbb;
+}
+
+.el-form-item {
+  width: 75%;
 }
 </style>

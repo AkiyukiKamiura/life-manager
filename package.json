@@ -53,10 +53,15 @@
     }
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.4",
+    "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "axios": "^0.18.0",
     "element-ui": "^2.4.7",
+    "i": "^0.3.6",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
+    "nedb": "^1.8.0",
+    "npm": "^6.4.1",
     "plotly": "^1.0.6",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
