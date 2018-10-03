@@ -1,2 +1,2 @@
-{"day":"2018/10/3","events":"","_id":"JucGkt75QlArbhxb"}
-{"day":"2018/10/2","events":"","_id":"aWFoDLA4GnbmFTbW"}
+{"day":"2018/10/3","events":[{"name":"睡眠","startTime":"02:00","endTime":"09:00","color":"#E70000"},{"name":"グダグダ","startTime":"10:00","endTime":"12:00","color":"#E70000"},{"name":"アプリ制作","startTime":"00:00","endTime":"00:15","color":"#FF0000"},{"name":"アプリ制作","startTime":"18:00","endTime":"20:00","color":"#FF0000"}],"_id":"JucGkt75QlArbhxb"}
+{"day":"2018/10/2","events":[{"name":"アプリ制作","startTime":"00:00","endTime":"00:15","color":"#060606"},{"name":"睡眠","startTime":"00:45","endTime":"10:45","color":"#270AE3"},{"name":"睡眠","startTime":"15:30","endTime":"18:00","color":"#CB0000"}],"_id":"aWFoDLA4GnbmFTbW"}

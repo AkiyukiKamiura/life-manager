@@ -1,7 +1,7 @@
 <template>
   <div>
     <div align="right">
-      <el-button @click="addDay()">Add Day</el-button>
+      <el-button @click="addDay">Add Day</el-button>
     </div>
     <el-card :body-style="{ padding: '0px' }" v-for="day in days">
       <el-container>
@@ -10,12 +10,12 @@
         </el-header>
         <el-main :style="{ padding: '0px' }">
           <el-row>
-            <el-col :span="12">
+            <el-col :span="16">
               <daily-graph :day="day" />
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
               <div class='card-content'>
-                <event-form v-on:submit-event="onSubmitEvent" />
+                <event-form :dayId="day._id" v-on:submit-event="onSubmitEvent" />
               </div>
             </el-col>
           </el-row>
@@ -58,33 +58,10 @@
         })
       },
       onSubmitEvent (dayform) {
-        // name: '',
-        // startTime: '',
-        // endTime: '',
-        // color: ''
-        console.log(dayform.name)
-        console.log(dayform.startTime)
-        console.log(dayform.endTime)
-        console.log(dayform.color)
-
-        var tid = ''
-        var targetDay = this.dbFindById(tid)
-        console.log(targetDay)
-      },
-      // DB Utility
-      dbFindById (tid) {
-        this.$db.timeDB.findOne({_id: tid}, function (err, doc) {
-          if (err) { throw err }
-          return doc
-        })
-      },
-      // Graph Setting
-      drawDailyTimeChart (graphAreaID, timeId) {
-        var target = document.getElementById(graphAreaID)
-        var day = this.dbFindById(timeId)
-        var events = day.events
-        console.log(target)
-        console.log(events)
+        if (dayform.name !== '' && dayform.startTime !== '' && dayform.endTime !== '' && dayform.color !== '') {
+          var newEvent = {'name': dayform.name, 'startTime': dayform.startTime, 'endTime': dayform.endTime, 'color': dayform.color}
+          this.$db.timeDB.update({_id: dayform.id}, {$push: {events: newEvent}})
+        }
       }
     },
     mounted: function () {

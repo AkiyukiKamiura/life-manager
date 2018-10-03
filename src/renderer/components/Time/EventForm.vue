@@ -19,15 +19,20 @@
 <script>
   export default {
     name: 'event-form-page',
+    props: ['dayId'],
     data () {
       return {
         dayform: {
+          id: '',
           name: '',
           startTime: '',
           endTime: '',
           color: ''
         }
       }
+    },
+    mounted: function () {
+      this.dayform.id = this.dayId
     },
     methods: {
     }
