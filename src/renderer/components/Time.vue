@@ -6,16 +6,17 @@
     <el-card :body-style="{ padding: '0px' }" v-for="day in days">
       <el-container>
         <el-header class="card-header">
-          <p>{{ currentDate }}</p>
+          <p class='daily-title'>Daily Summery: {{ day.day }}</p>
         </el-header>
         <el-main :style="{ padding: '0px' }">
           <el-row>
             <el-col :span="12">
-              <div id='graphArea'></div>
-              <!-- <img src="~@/assets/ukai.jpg" class="image"> -->
+              <daily-graph :day="day" />
             </el-col>
             <el-col :span="12">
-              <el-button>Add Event</el-button>
+              <div class='card-content'>
+                <event-form v-on:submit-event="onSubmitEvent" />
+              </div>
             </el-col>
           </el-row>
         </el-main>
@@ -25,19 +26,21 @@
 </template>
 
 <script>
-  let Database = require('nedb')
-  let timeDB = new Database({
-    filename: './db/dayhistory.json',
-    autoload: true
-  })
+  import EventForm from './Time/EventForm.vue'
+  import DailyGraph from './Time/DailyGraph.vue'
 
   export default {
     name: 'time-page',
+    components: {
+      EventForm,
+      DailyGraph
+    },
     data () {
       return {
-        currentDate: new Date().toLocaleDateString(),
-        graphAreaId: 'graphArea',
-        days: ''
+        days: '',
+        startTime: '',
+        endTime: '',
+        form: ''
       }
     },
     methods: {
@@ -47,67 +50,52 @@
       addDay () {
         var date = new Date().toLocaleDateString()
         var newdoc = {'day': date, events: ''}
-        timeDB.count({'day': date}, function (err, count) {
+        this.$db.timeDB.count({'day': date}, function (err, count) {
           if (err) throw err
           if (count === 0) {
-            timeDB.insert(newdoc, function (err, newDoc) {
-              if (err) throw err
-            })
-          } else {
+            this.$db.timeDB.insert(newdoc, function (err, newDoc) { if (err) throw err })
           }
         })
       },
-      drawDailyTimeChart () {
-        var target = document.getElementById(this.graphArea)
+      onSubmitEvent (dayform) {
+        // name: '',
+        // startTime: '',
+        // endTime: '',
+        // color: ''
+        console.log(dayform.name)
+        console.log(dayform.startTime)
+        console.log(dayform.endTime)
+        console.log(dayform.color)
+
+        var tid = ''
+        var targetDay = this.dbFindById(tid)
+        console.log(targetDay)
+      },
+      // DB Utility
+      dbFindById (tid) {
+        this.$db.timeDB.findOne({_id: tid}, function (err, doc) {
+          if (err) { throw err }
+          return doc
+        })
+      },
+      // Graph Setting
+      drawDailyTimeChart (graphAreaID, timeId) {
+        var target = document.getElementById(graphAreaID)
+        var day = this.dbFindById(timeId)
+        var events = day.events
         console.log(target)
-        var data = [{
-          values: [19, 26, 55],
-          labels: ['Residential', 'Non-Residential', 'Utility'],
-          textinfo: 'label+value',
-          sort: false,
-          visible: false,
-          type: 'pie'
-        }]
-
-        var layout = {
-          height: 200,
-          width: 200
-        }
-
-        window.Plotly.newPlot(target, data, layout)
+        console.log(events)
       }
     },
     mounted: function () {
-      // read DB
-      timeDB.find({}, function (err, doc) {
+      this.$db.timeDB.find({}, function (err, doc) {
         if (err) throw err
         this.days = doc
       }.bind(this))
-
-      console.log('mounted')
+      console.log(this.days)
     },
     updated: function () {
-      var target = document.getElementById('graphArea')
-      console.log(target)
-      var data = [{
-        values: [19, 26, 55],
-        labels: ['Residential', 'Non-Residential', 'Utility'],
-        textinfo: 'label+value',
-        showlegend: false,
-        sort: false,
-        type: 'pie'
-      }]
-
-      var layout = {
-        margin: {
-          t: 15,
-          b: 15,
-          l: 15,
-          r: 15
-        }
-      }
-
-      window.Plotly.newPlot(target, data, layout)
+      // updated
     }
   }
 </script>
@@ -122,8 +110,13 @@ el-card,
   border-bottom: 1px dashed #eee;
 }
 
-.time {
-  font-size: 13px;
-  color: #999;
+p.daily-title {
+  color: #555;
+  font-size: 20px;
+}
+
+div.card-content {
+  display:inline-block;
+  vertical-align: middle;
 }
 </style>

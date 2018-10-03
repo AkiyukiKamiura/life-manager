@@ -3,8 +3,8 @@
     <el-row :gutter="20">
       <el-col :span="6" v-for="task in tasks">
         <el-card :body-style="{ padding: '0px' }">
-          <img src="~@/assets/ukai.jpg" class="image">
           <div class="task-title">{{ task.name }}</div>
+          <img src="~@/assets/ukai.jpg" class="image">
           <div class="bottom clearfix">
             <p class="time" v-if="task.isDone">ended: {{ task.endTime }}</p>
             <p class="time unfinished" v-else>unfinished</p>
@@ -27,13 +27,6 @@
 </template>
 
 <script>
-  // TODO: パスの変更
-  let Database = require('nedb')
-  let tasklistDB = new Database({
-    filename: './db/tasklist.json',
-    autoload: true
-  })
-
   export default {
     name: 'task-page',
     data () {
@@ -49,7 +42,7 @@
         this.$electron.shell.openExternal(link)
       },
       dbQueryFind: function (findWord) {
-        tasklistDB.find({name: new RegExp('.*' + findWord + '.*', 'i')}, function (err, doc) {
+        this.$db.taskDB.find({name: new RegExp('.*' + findWord + '.*', 'i')}, function (err, doc) {
           if (err) throw err
           return doc
         })
@@ -57,14 +50,14 @@
       changeDoneStatus: function (tid, tisdone) {
         console.log('DoneStatusChanged:' + tisdone)
         var time = new Date().toLocaleTimeString()
-        tasklistDB.update({_id: tid}, {$set: {isDone: !tisdone, endTime: time}}, {}, function (err, numReplaced) {
+        this.$db.taskDB.update({_id: tid}, {$set: {isDone: !tisdone, endTime: time}}, {}, function (err, numReplaced) {
           if (err) throw err
         })
       }
     },
     mounted: function () {
       console.log('mounted')
-      tasklistDB.find({}, function (err, doc) {
+      this.$db.taskDB.find({}, function (err, doc) {
         if (err) throw err
         this.tasks = doc
       }.bind(this))
